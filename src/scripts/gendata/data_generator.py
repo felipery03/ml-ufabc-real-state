@@ -28,16 +28,32 @@ data_real_state['area'] = data_real_state.n_dorms.apply(lambda x:
 # 1 - apartment, 0 - house
 data_real_state['real_state_type'] = np.random.randint(2, size=100000)
 
+# 1 - there is garage, 0 - there isn't garare
+data_real_state['flag_garage'] = np.random.randint(2, size=100000)
+
+# 1 - yes, 0 - no
+data_real_state['near_subway'] = np.random.randint(2, size=100000)
+
+# 1 - yes, 0 - no
+data_real_state['concierge_service'] = np.random.randint(2, size=100000)
+
+# 1 - yes, 0 - no
+data_real_state['furnished'] = np.random.randint(2, size=100000)
+
 data_real_state['age'] = np.random.uniform(0, 45, 100000)
 
 # creating true_price using weighted sum + bayesian error
-data_real_state['true_price'] = 1500 + (200 * data_real_state['n_dorms'] +
-                                50 * data_real_state['n_bathrooms'] +
+data_real_state['true_price'] = 1000 + (200 * data_real_state['n_dorms'] +
                                 15 * data_real_state['n_suites'] +
+                                50 * data_real_state['n_bathrooms'] +
                                 5 * data_real_state['area'] +
                                 100 * data_real_state['real_state_type'] +
+                                150 * data_real_state['flag_garage'] +
+                                200 * data_real_state['near_subway'] +
+                                100 * data_real_state['concierge_service'] +
+                                100 * data_real_state['furnished'] +
                                 (-30) * data_real_state['age'] +
-                                np.random.normal(0, 5)
+                                np.random.normal(0, 200)
                                 )
 # creating price using price + variation
 data_real_state['price'] = (((np.random.normal(0, 0.1, 100000) + 1) *
@@ -47,7 +63,7 @@ data_real_state['price'] = (((np.random.normal(0, 0.1, 100000) + 1) *
 data_real_state.loc[data_real_state['price'] > data_real_state['true_price'],
                                               'target'] = 1
 
-data_real_state.target = data_real_state.target.fillna(1)
+data_real_state.target = data_real_state.target.fillna(0)
 
 # print the first 5 lines
 print(data_real_state.head())
