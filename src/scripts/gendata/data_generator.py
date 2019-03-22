@@ -9,11 +9,21 @@ np.random.seed(0)
 
 data_real_state['n_dorms'] = np.random.poisson(2, 100000)
 
-data_real_state['n_bathrooms'] = np.random.randint(1, 5, 100000)
+data_real_state['n_suites'] = data_real_state.n_dorms.apply(lambda x:
+                                    np.random.randint(x + 1) if x !=0 else 0)
 
-data_real_state['n_suites'] = np.random.poisson(1, 100000)
+data_real_state['n_bathrooms'] = data_real_state.n_suites.apply(lambda x:
+                                    x + np.random.randint(3) if x != 0
+                                    else np.random.randint(1, 3))
 
-data_real_state['area'] = np.random.normal(50, 15, 100000)
+# n_dorms == 0 -> n_bathrooms == 1
+data_real_state.loc[data_real_state.n_dorms == 0, 'n_bathrooms'] = 1
+
+data_real_state['area'] = data_real_state.n_dorms.apply(lambda x:
+                                    np.random.normal(25, 10) if x == 0
+                                    else(np.random.normal(40, 10) if x == 1
+                                    else np.random.normal(50, 10) if x == 2
+                                    else np.random.normal(70, 15)))
 
 # 1 - apartment, 0 - house
 data_real_state['real_state_type'] = np.random.randint(2, size=100000)
