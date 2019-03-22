@@ -65,6 +65,9 @@ data_real_state.loc[data_real_state['price'] > data_real_state['true_price'],
 
 data_real_state.target = data_real_state.target.fillna(0)
 
+# Minimum price == 0 
+data_real_state.loc[data_real_state.price < 0, 'price'] = 0
+
 # print the first 5 lines
 print(data_real_state.head())
 
