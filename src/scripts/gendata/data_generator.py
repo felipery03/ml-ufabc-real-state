@@ -35,7 +35,8 @@ data_real_state['flag_garage'] = np.random.randint(2, size=100000)
 data_real_state['near_subway'] = np.random.randint(2, size=100000)
 
 # 1 - yes, 0 - no
-data_real_state['concierge_service'] = np.random.randint(2, size=100000)
+#data_real_state['concierge_service'] = np.random.randint(2, size=100000)
+data_real_state['concierge_service'] = data_real_state.real_state_type.apply(lambda x: np.random.randint(2) if x!=0 else 0)
 
 # 1 - yes, 0 - no
 data_real_state['furnished'] = np.random.randint(2, size=100000)
