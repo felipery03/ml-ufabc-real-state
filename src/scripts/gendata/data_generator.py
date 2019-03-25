@@ -61,17 +61,22 @@ data_real_state['price'] = (((np.random.normal(0, 0.1, 100000) + 1) *
                             data_real_state['true_price']))
 
 # creating target using following rule: if price>true_price 1 else 0
-data_real_state.loc[data_real_state['price'] > data_real_state['true_price'],
-                                              'target'] = 1
+#data_real_state.loc[data_real_state['price'] > data_real_state['true_price'],
+#                                              'target'] = 1
 
-data_real_state.target = data_real_state.target.fillna(0)
+data_real_state.loc[data_real_state['price'] > 1.05*data_real_state['true_price'], 'target'] = 'expensive'
 
-# Minimum price == 0 
+data_real_state.loc[data_real_state['price'] < 0.95*data_real_state['true_price'], 'target'] = 'cheap'
+
+data_real_state.target = data_real_state.target.fillna('ok')
+
+# Minimum price == 0
 data_real_state.loc[data_real_state.price < 0, 'price'] = 0
 
 # print the first 5 lines
 print(data_real_state.head())
 
+print("O dataset de tamanho 100000 foi gerado no caminho /data/generate")
 # export data
 output_path = '../../../data/generate/'
 data_real_state.to_excel(output_path + 'generated_data.xlsx', index=False)
