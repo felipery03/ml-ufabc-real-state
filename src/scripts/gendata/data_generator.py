@@ -62,7 +62,7 @@ data_real_state['furnished'] = np.random.randint(2, size=100000)
 data_real_state['age'] = np.random.uniform(0, 45, 100000)
 
 data_real_state['area'] = data_real_state.n_dorms.apply(lambda x: 
-                            np.random.normal(55*(x+1),5))
+                            np.random.normal(55*(1.5*x+1),5))
 
 #                                    np.random.normal(25, 5) if x == 0
 #                                    else(np.random.normal(40, 5) if x == 1
