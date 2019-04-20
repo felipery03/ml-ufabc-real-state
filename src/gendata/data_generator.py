@@ -48,7 +48,7 @@ data_real_state['flag_garage'] = data_real_state.apply(lambda row: garage(row['r
 #data_real_state['flag_garage'] = data_real_state.real_state_type.apply(lambda x: garage(x))
 
 #                                    1 if np.random.randint(100) < 85  and x == 0
-#                                    else np.random.randint(100) < 70 )  
+#                                    else np.random.randint(100) < 70 )
 
 # 1 - yes, 0 - no
 data_real_state['near_subway'] = np.random.randint(2, size=100000)
@@ -61,7 +61,7 @@ data_real_state['furnished'] = np.random.randint(2, size=100000)
 
 data_real_state['age'] = np.random.uniform(0, 45, 100000)
 
-data_real_state['area'] = data_real_state.n_dorms.apply(lambda x: 
+data_real_state['area'] = data_real_state.n_dorms.apply(lambda x:
                             np.random.normal(55*(1.5*x+1),5))
 
 #                                    np.random.normal(25, 5) if x == 0
@@ -80,7 +80,7 @@ data_real_state['true_price'] = 100+(100 * data_real_state['n_dorms'] +
                                 150 * data_real_state['furnished'] +
                                 (-15) * data_real_state['age'] +
                                 np.random.randint(20,40)*data_real_state['area'])
-                                
+
 # creating price using price + variation
 data_real_state['price'] = (((np.random.normal(0, 0.1, 100000) + 1) *
                             data_real_state['true_price']))
@@ -103,5 +103,5 @@ print(data_real_state.head())
 
 print("O dataset de tamanho 100000 foi gerado no caminho /data/generate")
 # export data
-output_path = '../../../data/generate/'
+output_path = '../../data/generate/'
 data_real_state.to_excel(output_path + 'generated_data.xlsx', index=False)
