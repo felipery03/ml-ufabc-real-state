@@ -103,5 +103,5 @@ print(data_real_state.head())
 
 print("O dataset de tamanho 100000 foi gerado no caminho /data/generate")
 # export data
-output_path = '../../data/generate/'
+output_path = '../../data/'
 data_real_state.to_excel(output_path + 'generated_data.xlsx', index=False)
