@@ -14,7 +14,7 @@ data_real_state['n_suites'] = data_real_state.n_dorms.apply(lambda x:
 
 data_real_state['n_bathrooms'] = data_real_state.n_suites.apply(lambda x:
                                     x + 1 + np.random.randint(2) if x != 0
-                                    else np.random.randint(1, 2))
+                                    else 1)
 
 # n_dorms == 0 -> n_bathrooms == 1
 data_real_state.loc[data_real_state.n_dorms == 0, 'n_bathrooms'] = 1
@@ -26,15 +26,6 @@ data_real_state['real_state_type'] = data_real_state.n_dorms.apply(lambda x:
 
 # 1 - there is garage, 0 - there isn't garage
 #supposing houses are more likely to have garage
-#def garage(type):
-#    if (type == 0):
-#        if (np.random.randint(100) < 85):
-#            return 1
-#    else: #if type == 1
-#        if(np.random.randint(10) < 7):
-#            return 1
-#    return 0
-
 def garage(type, ndorm):
     if (type == 0):
         if (np.random.randint(100) < (ndorm+1)*25):
@@ -45,10 +36,6 @@ def garage(type, ndorm):
     return 0
 
 data_real_state['flag_garage'] = data_real_state.apply(lambda row: garage(row['real_state_type'], row['n_dorms']),axis = 1)
-#data_real_state['flag_garage'] = data_real_state.real_state_type.apply(lambda x: garage(x))
-
-#                                    1 if np.random.randint(100) < 85  and x == 0
-#                                    else np.random.randint(100) < 70 )
 
 # 1 - yes, 0 - no
 data_real_state['near_subway'] = np.random.randint(2, size=100000)
@@ -64,12 +51,6 @@ data_real_state['age'] = np.random.uniform(0, 45, 100000)
 data_real_state['area'] = data_real_state.n_dorms.apply(lambda x:
                             np.random.normal(55*(1.5*x+1),5))
 
-#                                    np.random.normal(25, 5) if x == 0
-#                                    else(np.random.normal(40, 5) if x == 1
-#                                    else np.random.normal(50, 5) if x == 2
-#                                    else np.random.normal(70, 5)))
-
-# creating true_price using weighted sum + bayesian error
 data_real_state['true_price'] = 100+(100 * data_real_state['n_dorms'] +
                                 125 * data_real_state['n_suites'] +
                                 50 * data_real_state['n_bathrooms'] +
@@ -84,10 +65,6 @@ data_real_state['true_price'] = 100+(100 * data_real_state['n_dorms'] +
 # creating price using price + variation
 data_real_state['price'] = (((np.random.normal(0, 0.1, 100000) + 1) *
                             data_real_state['true_price']))
-
-# creating target using following rule: if price>true_price 1 else 0
-#data_real_state.loc[data_real_state['price'] > data_real_state['true_price'],
-#                                              'target'] = 1
 
 data_real_state.loc[data_real_state['price'] > 1.05*data_real_state['true_price'], 'target'] = 'expensive'
 
