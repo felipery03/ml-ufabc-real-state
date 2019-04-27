@@ -1,18 +1,38 @@
 import joblib
 import pandas as pd
 
-model = joblib.load(r'../../models/final_model.pkl')
+pack = joblib.load(r'../../models/final_model.pkl')
 
-df = pd.read_excel(r'../../data/generated_data.xlsx')
-X = df.drop(['target', 'true_price'], axis=1)
+gridsearch = pack['gs']
+
+model = pack['model']
+
+X_train = pack['x_train']
+
+X_test = pack['x_test']
+
+y_test = pack['y_test']
+
 
 
 feature_importances = pd.DataFrame(model.feature_importances_,
-                                   index = X.columns,
+                                   index = X_train.columns,
                                     columns=['importance']).sort_values('importance', ascending=False)
 
-print(model)
+print('Best model found: {}\n'.format(model))
 
-print()
+best_model_index = gridsearch.best_index_
 
-print(feature_importances)
+results = pd.DataFrame(gridsearch.cv_results_).iloc[best_model_index]
+
+print('Mean train score: {} ({})\n'.format(round(results['mean_train_score'], 4), round(results['std_train_score'], 4)))
+
+print('Mean Validation score: {} ({})\n'.format(round(results['mean_test_score'], 4), round(results['std_test_score'], 4)))
+
+#Calculating accuracy of test set
+test_score = model.score(X_test, y_test)
+
+print('Test score: {}\n'.format(round(test_score, 4)))
+
+print('Feature Importance(%):\n')
+print(round(feature_importances*100, 2))
