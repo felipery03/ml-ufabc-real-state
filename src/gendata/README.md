@@ -4,22 +4,21 @@ Variables created until now:
 
 name (distribution, parameters)  
 
-n_dorms int (poisson, 2 rooms expected)  
-n_bathrooms  int (randint, 1 bathroom expected)  
-n_suites int (poisson, 1 suite expected)  
-flag_garage int (ranint, 0 or 1)  
-near_subway (randint, 0 or 1)  
-concierge_service (randint, 0, 1)  
-furnished (randint, 0, 1)  
-area continuous (normal, 50 m^2 esperado, std = 15)  
-real_state_type (randint, 0: house, 1: apartament)  
-age (uniform, 0 to 45)  
+n_dorms int (poisson/2, 2 rooms expected)  
+n_suites int (randint based on number of dorms)
+n_bathrooms  int (randint based on number of suites)  
+real_state_type (randint based on number of dorms, 0: house, 1: apartament)  
+flag_garage int (ranint nased on real_state_type and n_dorms, 0: doesn't have garage or 1: has garage)  
+near_subway (randint, 0: not near subway or 1: near subway)  
+concierge_service (randint based on real_state_type, 0: doesn't have concierge service 1: has concierge service)  
+furnished (randint, 0: not furnished or 1: furnished)  
+age (continuous, uniform distribution, 0 to 45) 
+area (continuous, random based on n_dorms)
+true_price: price generated using vars*weigth, with area's weigth being a randint
+price: price generated using true_price + normal distribution 
+target: object expected category (expensive if price > 1.05*true_price, cheap if price<0.95*true_price and ok for the rest)
 
-true_price: price generated using vars  + bayesian error  
-price: price generated using true_price + some distribution  
-target: if(true_price >= price) 0 else 1  
-
-Another interesting variables  
+Another interesting,not implemented, variables
 
 zone (one-hot-encoding, sul, leste, oeste, centro, norte)  
 elevator (randint, 0, 1)  
