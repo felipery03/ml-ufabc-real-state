@@ -13,10 +13,10 @@ near_subway (randint, 0: not near subway or 1: near subway)
 concierge_service (randint based on real_state_type, 0: doesn't have concierge service 1: has concierge service)  
 furnished (randint, 0: not furnished or 1: furnished)  
 age (continuous, uniform distribution, 0 to 45) 
-area (continuous, random based on n_dorms)
-true_price: price generated using vars*weigth, with area's weigth being a randint
-price: price generated using true_price + normal distribution 
-target: object expected category (expensive if price > 1.05*true_price, cheap if price<0.95*true_price and ok for the rest)
+area (continuous, random based on n_dorms)  
+true_price: price generated using vars*weigth, with area's weigth being a randint  
+price: price generated using true_price + normal distribution   
+target: object expected category (expensive if price > 1.05*true_price, cheap if price<0.95*true_price and ok for the rest)  
 
 Another interesting,not implemented, variables
 
